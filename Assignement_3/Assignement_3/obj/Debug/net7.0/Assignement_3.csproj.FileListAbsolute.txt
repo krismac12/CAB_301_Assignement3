@@ -1,0 +1,15 @@
+C:\desk\code\Cab301\CAB_301_Assignement3\Assignement_3\Assignement_3\obj\Debug\net7.0\Assignement_3.csproj.AssemblyReference.cache
+C:\desk\code\Cab301\CAB_301_Assignement3\Assignement_3\Assignement_3\obj\Debug\net7.0\Assignement_3.GeneratedMSBuildEditorConfig.editorconfig
+C:\desk\code\Cab301\CAB_301_Assignement3\Assignement_3\Assignement_3\obj\Debug\net7.0\Assignement_3.AssemblyInfoInputs.cache
+C:\desk\code\Cab301\CAB_301_Assignement3\Assignement_3\Assignement_3\obj\Debug\net7.0\Assignement_3.AssemblyInfo.cs
+C:\desk\code\Cab301\CAB_301_Assignement3\Assignement_3\Assignement_3\obj\Debug\net7.0\Assignement_3.csproj.CoreCompileInputs.cache
+C:\desk\code\Cab301\CAB_301_Assignement3\Assignement_3\Assignement_3\bin\Debug\net7.0\Assignement_3.exe
+C:\desk\code\Cab301\CAB_301_Assignement3\Assignement_3\Assignement_3\bin\Debug\net7.0\Assignement_3.deps.json
+C:\desk\code\Cab301\CAB_301_Assignement3\Assignement_3\Assignement_3\bin\Debug\net7.0\Assignement_3.runtimeconfig.json
+C:\desk\code\Cab301\CAB_301_Assignement3\Assignement_3\Assignement_3\bin\Debug\net7.0\Assignement_3.dll
+C:\desk\code\Cab301\CAB_301_Assignement3\Assignement_3\Assignement_3\bin\Debug\net7.0\Assignement_3.pdb
+C:\desk\code\Cab301\CAB_301_Assignement3\Assignement_3\Assignement_3\obj\Debug\net7.0\Assignement_3.dll
+C:\desk\code\Cab301\CAB_301_Assignement3\Assignement_3\Assignement_3\obj\Debug\net7.0\refint\Assignement_3.dll
+C:\desk\code\Cab301\CAB_301_Assignement3\Assignement_3\Assignement_3\obj\Debug\net7.0\Assignement_3.pdb
+C:\desk\code\Cab301\CAB_301_Assignement3\Assignement_3\Assignement_3\obj\Debug\net7.0\Assignement_3.genruntimeconfig.cache
+C:\desk\code\Cab301\CAB_301_Assignement3\Assignement_3\Assignement_3\obj\Debug\net7.0\ref\Assignement_3.dll

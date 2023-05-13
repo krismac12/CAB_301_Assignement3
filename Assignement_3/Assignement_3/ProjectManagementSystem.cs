@@ -227,11 +227,15 @@ namespace Assignement_3
                 }
             }
 
+            // Sort the tasks by their IDs
+            var sortedTasks = earliestTimes.OrderBy(kvp => kvp.Key).Select(kvp => kvp.Key);
+
             // Format the earliest times as a string
-            string output = string.Empty;
-            foreach (var kvp in earliestTimes)
+            string output = "";
+            foreach (string taskID in sortedTasks)
             {
-                output += $"{kvp.Key}, {kvp.Value - GetTimeNeeded(kvp.Key)}\n";
+                int earliestTime = earliestTimes[taskID] - GetTimeNeeded(taskID);
+                output += $"{taskID}, {earliestTime}\n";
             }
 
             return output;
@@ -282,5 +286,6 @@ namespace Assignement_3
             }
             return 0;
         }
+
     }
 }

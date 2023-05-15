@@ -7,7 +7,7 @@ namespace Assignement_3
 {
     public class ProjectManagementSystem
     {
-        private List<Task> tasks; // List to store tasks
+        public List<Task> tasks; // List to store tasks
 
         public ProjectManagementSystem()
         {

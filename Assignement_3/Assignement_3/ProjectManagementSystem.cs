@@ -73,17 +73,9 @@ namespace Assignement_3
         }
 
         // Function to add a new task to the project
-        public void AddTask(string taskID, int timeNeeded, List<string> dependencies)
+        public void AddTask(Task task)
         {
             // Check if the dependencies list contains any duplicates
-            if (dependencies.Distinct().Count() != dependencies.Count)
-            {
-                Console.WriteLine("Error: Duplicate dependencies detected. Please ensure each dependency is unique.");
-                return;
-            }
-
-            Task task = new Task(taskID, timeNeeded);
-            task.Dependencies = dependencies;
             tasks.Add(task);
         }
 
@@ -95,6 +87,7 @@ namespace Assignement_3
                 if(t.TaskID == taskID)
                 {
                     tasks.Remove(t);
+                    return;
                 }
             }
         }

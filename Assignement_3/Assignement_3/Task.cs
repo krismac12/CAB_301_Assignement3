@@ -21,9 +21,18 @@ namespace Assignement_3
 
         public void addDependencies(List<string> dependencies)
         {
+            if (dependencies.Distinct().Count() != dependencies.Count)
+            {
+                Console.WriteLine("Error: Duplicate dependencies detected. Please ensure each dependency is unique.");
+                return;
+            }
             Dependencies.AddRange(dependencies);
         }
 
-
+        public override string ToString()
+        {
+            string s = TaskID + " " + TimeNeeded;
+            return s;
+        }
     }
 }

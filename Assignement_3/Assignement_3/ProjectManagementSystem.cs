@@ -109,10 +109,10 @@ namespace Assignement_3
         {
             try
             {
-                        if (!fileName.EndsWith(".txt"))
-        {
-            fileName += ".txt";
-        }
+                if (!fileName.EndsWith(".txt"))
+                {
+                    fileName += ".txt";
+                }
 
                 using (StreamWriter writer = new StreamWriter(fileName))
                 {

@@ -37,6 +37,7 @@ namespace Assignement_3
                     case "1":
                         Console.Write("Enter the file name: ");
                         string fileName = Console.ReadLine();
+                        fileName = GetFullFilePath(fileName);
                         projectManager.ReadTasksFromFile(fileName);
                         Console.WriteLine("-------------------------------------");
                         break;
@@ -56,6 +57,7 @@ namespace Assignement_3
                     case "5":
                         Console.Write("Enter the file name: ");
                         string fileName2 = Console.ReadLine();
+                        fileName2 = GetFullFilePath(fileName2);
                         projectManager.SaveTasksToFile(fileName2);
                         Console.WriteLine("-------------------------------------");
                         break;
@@ -109,7 +111,7 @@ namespace Assignement_3
                 {
                     case "1":
                         Task t = DisplayAllTasks();
-                        if(t != null)
+                        if(t == null)
                         {
                             dependencies.Add(t.TaskID);
                         }
@@ -141,10 +143,19 @@ namespace Assignement_3
             switch (input)
             {
                 case "1":
-                    Task t = DisplayAllTasks();
-                    if (t != null)
+                    Task task = DisplayAllTasks();
+                    if (task != null)
                     {
-                        projectManager.RemoveTask(t.TaskID);
+                        List<string> tasksToRemove = new List<string>();
+                        tasksToRemove.Add(task.TaskID);
+                        GetDependentTasks(task.TaskID, tasksToRemove);
+
+                        foreach (string taskID in tasksToRemove)
+                        {
+                            projectManager.RemoveTask(taskID);
+                        }
+
+                        Console.WriteLine("Task(s) and their dependencies removed successfully.");
                     }
                     break;
 
@@ -152,6 +163,19 @@ namespace Assignement_3
                     break;
             }
             Console.WriteLine("-------------------------------------");
+        }
+
+        // Recursive Depth First Search function to get all dependent tasks
+        private void GetDependentTasks(string taskID, List<string> tasksToRemove)
+        {
+            foreach (Task task in projectManager.tasks)
+            {
+                if (task.Dependencies.Contains(taskID))
+                {
+                    tasksToRemove.Add(task.TaskID);
+                    GetDependentTasks(task.TaskID, tasksToRemove);
+                }
+            }
         }
 
         private void ChangeTime()
@@ -191,6 +215,7 @@ namespace Assignement_3
         // Function to display all tasks with numbers
         private Task DisplayAllTasks()
         {
+
             Console.WriteLine("Tasks:");
             if (projectManager.tasks.Count == 0)
             {
@@ -199,11 +224,13 @@ namespace Assignement_3
             }
 
             int index = 1;
+
             foreach (Task task in projectManager.tasks)
             {
                 Console.WriteLine($"{index}. {task.TaskID}");
                 index++;
             }
+            Console.WriteLine("0. Cancel");
 
             Console.Write("Enter task number to select: ");
             int selection = int.Parse(Console.ReadLine());
@@ -225,16 +252,17 @@ namespace Assignement_3
                 Console.Write("Enter the filename to save the sequence: ");
                 string fileName = Console.ReadLine();
 
-                // Add .txt extension if not present
-                if (!fileName.EndsWith(".txt"))
-                {
-                    fileName += ".txt";
-                }
+                fileName = GetFullFilePath(fileName);
 
                 try
                 {
                     File.WriteAllLines(fileName, sequence);
                     Console.WriteLine("Sequence saved to file successfully.");
+                    Console.WriteLine("Sequence:");
+                    foreach (string task in sequence)
+                    {
+                        Console.WriteLine(task);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -243,7 +271,7 @@ namespace Assignement_3
             }
             else
             {
-                Console.WriteLine("No Tasks");
+                Console.WriteLine("No tasks.");
             }
             Console.WriteLine("-------------------------------------");
         }
@@ -256,25 +284,47 @@ namespace Assignement_3
 
                 Console.Write("Enter the filename to save the earliest times: ");
                 string fileName = Console.ReadLine();
+                fileName = GetFullFilePath(fileName);
 
-                // Add .txt extension if not present
-                if (!fileName.EndsWith(".txt"))
-                {
-                    fileName += ".txt";
-                }
 
                 try
                 {
                     File.WriteAllText(fileName, earliestTimes);
                     Console.WriteLine("Earliest times saved to file successfully.");
+                    Console.WriteLine("Earliest times:");
+                    Console.WriteLine(earliestTimes);
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine($"An error occurred while saving the file: {e.Message}");
                 }
             }
+            else
+            {
+                Console.WriteLine("No tasks.");
+            }
         }
 
+
+
+        private string GetFullFilePath(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+            {
+                throw new ArgumentNullException(nameof(fileName), "File name cannot be null or empty.");
+            }
+
+            string currentDirectory = Directory.GetCurrentDirectory();
+            string fullFilePath = Path.Combine(currentDirectory, fileName);
+
+            // Add .txt extension if not present
+            if (Path.GetExtension(fullFilePath) != ".txt")
+            {
+                fullFilePath += ".txt";
+            }
+
+            return fullFilePath;
+        }
 
     }
 }

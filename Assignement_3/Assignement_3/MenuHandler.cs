@@ -27,6 +27,7 @@ namespace Assignement_3
                 Console.WriteLine("5. Save tasks to file");
                 Console.WriteLine("6. Find task sequence");
                 Console.WriteLine("7. Find earliest task completion times");
+                Console.WriteLine("8. Display Tasks");
                 Console.WriteLine("0. Exit");
                 Console.WriteLine("-------------------------------------");
                 Console.Write("Enter your choice: ");
@@ -39,19 +40,23 @@ namespace Assignement_3
                         string fileName = Console.ReadLine();
                         fileName = GetFullFilePath(fileName);
                         projectManager.ReadTasksFromFile(fileName);
+                        Pause();
                         Console.WriteLine("-------------------------------------");
                         break;
 
                     case "2":
                         EnterTask();
+                        Pause();
                         break;
 
                     case "3":
                         RemoveTask();
+                        Pause();
                         break;
 
                     case "4":
                         ChangeTime();
+                        Pause();
                         break;
 
                     case "5":
@@ -64,10 +69,21 @@ namespace Assignement_3
 
                     case "6":
                         FindSequence();
+                        Pause();
                         break;
 
                     case "7":
                         FindEarliestTimes();
+                        Pause();
+                        break;
+
+
+                    case "8":
+                        Console.WriteLine("-------------------------------------");
+                        projectManager.DisplayTasks();
+                        Pause();
+                        Console.WriteLine("-------------------------------------");
+
                         break;
 
                     case "0":
@@ -110,7 +126,7 @@ namespace Assignement_3
                 switch (input)
                 {
                     case "1":
-                        Task t = DisplayAllTasks();
+                        Task t = SelectTasks();
                         if(t == null)
                         {
                             dependencies.Add(t.TaskID);
@@ -143,7 +159,7 @@ namespace Assignement_3
             switch (input)
             {
                 case "1":
-                    Task task = DisplayAllTasks();
+                    Task task = SelectTasks();
                     if (task != null)
                     {
                         List<string> tasksToRemove = new List<string>();
@@ -188,7 +204,7 @@ namespace Assignement_3
             switch (input)
             {
                 case "1":
-                    Task t = DisplayAllTasks();
+                    Task t = SelectTasks();
                     if (t != null)
                     {
                         Console.Write("Enter new Time: ");
@@ -213,7 +229,7 @@ namespace Assignement_3
             Console.WriteLine("-------------------------------------");
         }
         // Function to display all tasks with numbers
-        private Task DisplayAllTasks()
+        private Task SelectTasks()
         {
 
             Console.WriteLine("Tasks:");
@@ -248,14 +264,26 @@ namespace Assignement_3
         {
             if (projectManager.tasks.Count != 0)
             {
-                List<string> sequence = projectManager.FindTaskSequence();
                 Console.Write("Enter the filename to save the sequence: ");
                 string fileName = Console.ReadLine();
 
                 fileName = GetFullFilePath(fileName);
 
+                if (File.Exists(fileName))
+                {
+                    Console.WriteLine("File already exists. Do you want to override it? (Y/N)");
+                    string input = Console.ReadLine();
+
+                    if (input.ToLower() != "y")
+                    {
+                        Console.WriteLine("Save operation canceled.");
+                        return;
+                    }
+                }
+
                 try
                 {
+                    List<string> sequence = projectManager.FindTaskSequence();
                     File.WriteAllLines(fileName, sequence);
                     Console.WriteLine("Sequence saved to file successfully.");
                     Console.WriteLine("Sequence:");
@@ -280,15 +308,25 @@ namespace Assignement_3
         {
             if (projectManager.tasks.Count != 0)
             {
-                string earliestTimes = projectManager.FindEarliestTimes();
-
                 Console.Write("Enter the filename to save the earliest times: ");
                 string fileName = Console.ReadLine();
                 fileName = GetFullFilePath(fileName);
 
+                if (File.Exists(fileName))
+                {
+                    Console.WriteLine("File already exists. Do you want to override it? (Y/N)");
+                    string input = Console.ReadLine();
+
+                    if (input.ToLower() != "y")
+                    {
+                        Console.WriteLine("Save operation canceled.");
+                        return;
+                    }
+                }
 
                 try
                 {
+                    string earliestTimes = projectManager.FindEarliestTimes();
                     File.WriteAllText(fileName, earliestTimes);
                     Console.WriteLine("Earliest times saved to file successfully.");
                     Console.WriteLine("Earliest times:");
@@ -326,5 +364,10 @@ namespace Assignement_3
             return fullFilePath;
         }
 
+        private void Pause()
+        {
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadLine();
+        }
     }
 }

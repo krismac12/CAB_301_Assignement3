@@ -22,6 +22,13 @@ namespace Assignement_3
                 // Read the file
                 string[] lines = File.ReadAllLines(fileName);
 
+                // Check if the file is empty
+                if (lines.Length == 0)
+                {
+                    Console.WriteLine("The file is empty.");
+                    return;
+                }
+
                 // Clear existing tasks
                 tasks.Clear();
 
@@ -72,6 +79,7 @@ namespace Assignement_3
             }
         }
 
+
         // Function to add a new task to the project
         public void AddTask(Task task)
         {
@@ -92,17 +100,26 @@ namespace Assignement_3
             }
         }
 
-        // Function to change the time needed to complete a task
         public void ChangeTimeNeeded(string taskID, int newTimeNeeded)
         {
-            foreach (Task t in tasks)
+            if (newTimeNeeded < 0)
             {
-                if (t.TaskID == taskID)
-                {
-                    t.TimeNeeded = newTimeNeeded;
-                }
+                Console.WriteLine("Invalid time value. Time needed cannot be negative.");
+                return;
+            }
+
+            Task taskToChange = tasks.Find(t => t.TaskID == taskID);
+            if (taskToChange != null)
+            {
+                taskToChange.TimeNeeded = newTimeNeeded;
+                Console.WriteLine($"Time needed for task {taskID} changed to {newTimeNeeded} successfully.");
+            }
+            else
+            {
+                Console.WriteLine($"Task {taskID} not found.");
             }
         }
+
 
         // Function to save the task information back to the input text file
         public void SaveTasksToFile(string fileName)
@@ -112,6 +129,18 @@ namespace Assignement_3
                 if (!fileName.EndsWith(".txt"))
                 {
                     fileName += ".txt";
+                }
+
+                if (File.Exists(fileName))
+                {
+                    Console.WriteLine("File already exists. Do you want to override it? (Y/N)");
+                    string input = Console.ReadLine();
+
+                    if (input.ToLower() != "y")
+                    {
+                        Console.WriteLine("Save operation canceled.");
+                        return;
+                    }
                 }
 
                 using (StreamWriter writer = new StreamWriter(fileName))
@@ -139,6 +168,7 @@ namespace Assignement_3
                 Console.WriteLine($"An error occurred while saving the file: {e.Message}");
             }
         }
+
 
         // Function to find a sequence of tasks that does not violate any dependencies
         public List<string> FindTaskSequence()
@@ -279,6 +309,28 @@ namespace Assignement_3
             }
             return 0;
         }
+
+        public void DisplayTasks()
+        {
+            if (tasks.Count == 0)
+            {
+                Console.WriteLine("No tasks available.");
+                return;
+            }
+
+            Console.WriteLine("Tasks:");
+            foreach (Task task in tasks)
+            {
+                Console.Write($"{task.TaskID}, {task.TimeNeeded}");
+                if (task.Dependencies.Count > 0)
+                {
+                    Console.Write(", ");
+                    Console.Write(string.Join(", ", task.Dependencies));
+                }
+                Console.WriteLine();
+            }
+        }
+
 
     }
 }
